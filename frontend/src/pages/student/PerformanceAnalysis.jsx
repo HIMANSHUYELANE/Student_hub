@@ -59,21 +59,44 @@ const PerformanceAnalysis = () => {
           </div>
         </div>
       </div>
-      <div className="card">
-        <h2 className="text-sm font-semibold text-slate-800">Weak Subjects</h2>
-        {weakSubjects.length ? (
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
-            {weakSubjects.map((s) => (
-              <li key={s.name}>
-                <span className="font-semibold">{s.name}:</span> {s.marks} marks
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-2 text-sm text-slate-500">
-            No weak subjects detected. Keep up the good work!
-          </p>
-        )}
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="card">
+          <h2 className="text-sm font-semibold text-slate-800">Weak Subjects</h2>
+          {weakSubjects.length ? (
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
+              {weakSubjects.map((s) => (
+                <li key={s.name}>
+                  <span className="font-semibold">{s.name}:</span> {s.marks} marks
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-2 text-sm text-slate-500">
+              No weak subjects detected. Keep up the good work!
+            </p>
+          )}
+        </div>
+        <div className="card">
+          <h2 className="text-sm font-semibold text-slate-800">Extracurricular Activities</h2>
+          {data?.activities && data.activities.length ? (
+            <ul className="mt-2 space-y-2 text-sm text-slate-700">
+              {data.activities.map((act) => (
+                <li key={act._id} className="flex justify-between items-center bg-slate-50 p-2 rounded">
+                  <div>
+                    <span className="font-semibold">{act.name}</span> <span className="text-xs text-slate-500">({act.category})</span>
+                  </div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
+                    {act.achievement}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-2 text-sm text-slate-500">
+              No extracurricular activities recorded yet.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const subjectSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    marks: { type: Number, required: true, min: 0, max: 100 }
+    marks: { type: Number, required: true, min: 0 },
+    maxMarks: { type: Number, required: true, default: 100 }
   },
   { _id: false }
 );

@@ -16,7 +16,10 @@ import Profile from './pages/student/Profile';
 import ViewAttendance from './pages/student/ViewAttendance';
 import ViewResults from './pages/student/ViewResults';
 import PerformanceAnalysis from './pages/student/PerformanceAnalysis';
-
+import ActivityList from './pages/admin/ActivityList';
+import ActivityDetails from './pages/admin/ActivityDetails';
+import ManageStudentActivities from './pages/admin/ManageStudentActivities';
+import MyActivities from './pages/student/MyActivities';
 const App = () => {
   const { isAuthenticated, user } = useAuth();
 
@@ -38,6 +41,9 @@ const App = () => {
           <Route path="/admin/attendance" element={<MarkAttendance />} />
           <Route path="/admin/results" element={<AddResults />} />
           <Route path="/admin/performance" element={<ClassPerformance />} />
+          <Route path="/admin/activities" element={<ActivityList />} />
+          <Route path="/admin/activities/:id" element={<ActivityDetails />} />
+          <Route path="/admin/students/:studentId/activities" element={<ManageStudentActivities />} />
         </Route>
       </Route>
 
@@ -48,6 +54,7 @@ const App = () => {
           <Route path="/student/attendance" element={<ViewAttendance />} />
           <Route path="/student/results" element={<ViewResults />} />
           <Route path="/student/performance" element={<PerformanceAnalysis />} />
+          <Route path="/student/activities" element={<MyActivities />} />
         </Route>
       </Route>
 

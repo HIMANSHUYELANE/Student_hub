@@ -7,6 +7,7 @@ const AddResults = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudentId, setSelectedStudentId] = useState('');
   const [term, setTerm] = useState('');
+  const [globalMaxMarks, setGlobalMaxMarks] = useState(100);
   const [subjects, setSubjects] = useState([{ ...emptySubject }]);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -47,7 +48,7 @@ const AddResults = () => {
     }
     const cleanedSubjects = subjects
       .filter((s) => s.name && s.marks !== '')
-      .map((s) => ({ name: s.name, marks: Number(s.marks) }));
+      .map((s) => ({ name: s.name, marks: Number(s.marks), maxMarks: Number(globalMaxMarks) }));
 
     if (!cleanedSubjects.length) {
       setMessage('Please add at least one subject.');
@@ -107,6 +108,17 @@ const AddResults = () => {
               required
             />
           </div>
+          <div>
+            <label className="label">Out of (Max Marks)</label>
+            <input
+              type="number"
+              className="input"
+              value={globalMaxMarks}
+              onChange={(e) => setGlobalMaxMarks(e.target.value)}
+              min="1"
+              required
+            />
+          </div>
         </div>
         <div>
           <div className="flex items-center justify-between">
@@ -137,7 +149,7 @@ const AddResults = () => {
                   className="input"
                   type="number"
                   min="0"
-                  max="100"
+                  max={globalMaxMarks}
                   placeholder="Marks"
                   value={subject.marks}
                   onChange={(e) =>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api/axios';
+import { Link } from 'react-router-dom';
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -108,10 +109,16 @@ const StudentList = () => {
                   </td>
                   <td className="px-4 py-2 text-xs text-slate-700">{s.className}</td>
                   <td className="px-4 py-2 text-xs text-slate-600">{s.email || '-'}</td>
-                  <td className="px-4 py-2 text-right text-xs">
+                  <td className="px-4 py-2 text-right text-xs space-x-2">
+                    <Link
+                      to={`/admin/students/${s._id}/activities`}
+                      className="rounded-lg border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100 uppercase tracking-wide inline-block"
+                    >
+                      Activities
+                    </Link>
                     <button
                       onClick={() => handleDelete(s._id)}
-                      className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+                      className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50 uppercase tracking-wide inline-block"
                     >
                       Delete
                     </button>

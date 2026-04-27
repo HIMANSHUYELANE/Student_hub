@@ -10,7 +10,8 @@ const StudentLayout = () => {
     { to: '/student/profile', label: 'Profile' },
     { to: '/student/attendance', label: 'Attendance' },
     { to: '/student/results', label: 'Results' },
-    { to: '/student/performance', label: 'Performance' }
+    { to: '/student/performance', label: 'Performance' },
+    { to: '/student/activities', label: 'Extracurriculars' }
   ];
 
   return (

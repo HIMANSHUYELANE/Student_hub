@@ -18,12 +18,14 @@ const SubjectBarChart = ({ subjects }) => {
     );
   }
 
+  const maxDomain = subjects.reduce((max, s) => Math.max(max, s.maxMarks || 100), 100);
+
   return (
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={subjects} margin={{ top: 10, right: 20, left: 0, bottom: 30 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
         <XAxis dataKey="name" angle={-30} textAnchor="end" interval={0} height={60} />
-        <YAxis domain={[0, 100]} />
+        <YAxis domain={[0, maxDomain]} />
         <Tooltip />
         <Bar dataKey="marks" fill="#4f46e5" radius={[4, 4, 0, 0]} />
       </BarChart>

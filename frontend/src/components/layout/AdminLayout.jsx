@@ -11,7 +11,8 @@ const AdminLayout = () => {
     { to: '/admin/students/add', label: 'Add Student' },
     { to: '/admin/attendance', label: 'Mark Attendance' },
     { to: '/admin/results', label: 'Add Results' },
-    { to: '/admin/performance', label: 'Class Performance' }
+    { to: '/admin/performance', label: 'Class Performance' },
+    { to: '/admin/activities', label: 'Activities' }
   ];
 
   return (

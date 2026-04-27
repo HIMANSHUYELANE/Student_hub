@@ -1,12 +1,15 @@
 const Student = require('../models/Student');
 const Attendance = require('../models/Attendance');
 const Result = require('../models/Result');
+const Activity = require('../models/Activity');
 const {
   calculateAttendancePercentage,
   calculateAverageMarks,
   detectWeakSubjects,
+  calculateActivityScore,
   getPerformanceLevel
 } = require('../utils/performanceUtils');
+const { generateRecommendations } = require('../utils/recommendationUtils');
 
 // GET /api/dashboard/admin
 const getAdminDashboard = async (req, res) => {
@@ -55,7 +58,18 @@ const getAdminDashboard = async (req, res) => {
       const attendancePercentage = await calculateAttendancePercentage(
         result.student
       );
-      const level = getPerformanceLevel(avgMarks, attendancePercentage);
+      
+      const studentActs = await Activity.find({ 'participants.student': result.student });
+      let actScore = 0;
+      if (studentActs.length > 0) {
+        const mappedActs = studentActs.map(act => {
+          const p = act.participants.find(p => p.student.toString() === result.student.toString());
+          return { achievement: p ? p.achievement : null };
+        });
+        actScore = calculateActivityScore(mappedActs);
+      }
+
+      const level = getPerformanceLevel(avgMarks, attendancePercentage, actScore);
       performanceBuckets[level] = (performanceBuckets[level] || 0) + 1;
     }
 
@@ -91,10 +105,28 @@ const getStudentDashboard = async (req, res) => {
     const weakSubjects = latestResult
       ? detectWeakSubjects(latestResult)
       : [];
+      
+    const activitiesRecords = await Activity.find({ 'participants.student': studentId }).sort({ date: -1 });
+    const activities = activitiesRecords.map(act => {
+      const p = act.participants.find(p => p.student.toString() === studentId);
+      return {
+        _id: act._id,
+        category: act.category,
+        name: act.name,
+        achievement: p ? p.achievement : null,
+        date: act.date
+      };
+    });
+
+    const activityScore = calculateActivityScore(activities);
+
     const performanceLevel = getPerformanceLevel(
       avgMarks,
-      attendancePercentage
+      attendancePercentage,
+      activityScore
     );
+
+    const recommendations = generateRecommendations(latestResult, activities);
 
     res.json({
       student,
@@ -102,7 +134,10 @@ const getStudentDashboard = async (req, res) => {
       latestResult,
       avgMarks,
       weakSubjects,
-      performanceLevel
+      performanceLevel,
+      activityScore,
+      activities,
+      recommendations
     });
   } catch (error) {
     console.error(error);
