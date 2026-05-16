@@ -2,7 +2,7 @@ import axios from 'axios';
 import { STORAGE_KEY } from '../constants/storage';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'https://student-hub-lgxf.onrender.com/api'  
 });
 
 api.interceptors.request.use((config) => {
