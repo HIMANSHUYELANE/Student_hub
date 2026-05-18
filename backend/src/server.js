@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({origin: ["https://student-hub-gamma-ten.vercel.app/login"]}));
+app.use(cors({origin: ["https://student-hub-gamma-ten.vercel.app"]}));
 app.use(express.json());
 app.use(morgan('dev'));
 
